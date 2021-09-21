@@ -1,6 +1,3 @@
-
-
-
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp  --dport 80 -j DNAT --to-destination 10.0.0.3 # перенаправляем соединение eth0(10.0.0.1) по портам 80 в локальную сеть на 10.0.0.3
 
 sudo iptables -t nat -A PREROUTING -i eth0 -p tcp  --dport 81 -j DNAT --to-destination 10.0.0.2:80# перенаправляем соединение eth0(10.0.0.1) по портам 81 в локальную сеть на 10.0.0.3
