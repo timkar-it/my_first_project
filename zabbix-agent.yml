@@ -1,0 +1,32 @@
+---
+
+  - name: Zabbix-agent install Debian and RedHat
+    hosts: all
+    become: yes
+    tasks:
+    - block: #=============Debian=============           
+      - name: Install zabbix-agent Debian
+        apt: name=zabbix-agent state=latest
+      when: ansible_os_family == "Debian"
+
+
+    - block: #=============RedHat==============
+      - name: Add repository
+        yum_repository:
+         name: zabbix
+         description: zabbix.repo
+         baseurl: https://repo.zabbix.com/zabbix/5.4/rhel/8/x86_64/
+
+      - name: Import a key from a url
+        ansible.builtin.rpm_key:
+         state: present
+         key: https://repo.zabbix.com/RPM-GPG-KEY-ZABBIX 
+
+      - name: GPGcheck 
+        shell: echo 'gpgcheck=0' >> /etc/yum.repos.d/zabbix.repo   
+
+      - name: install zabbix-agent RedHat
+        yum: name=zabbix-agent state=latest
+      when: ansible_os_family == "RedHat"
+
+
